@@ -46,29 +46,49 @@ if TYPE_CHECKING:
 
 # Available models
 RegressionModel = Literal[
-    "linear", "ridge", "lasso", "elasticnet",
-    "random_forest_regressor", "gradient_boosting",
-    "xgboost_regressor", "lightgbm_regressor"
+    "linear",
+    "ridge",
+    "lasso",
+    "elasticnet",
+    "random_forest_regressor",
+    "gradient_boosting",
+    "xgboost_regressor",
+    "lightgbm_regressor",
 ]
 
 ClassificationModel = Literal[
-    "knn", "logistic_regression", "svm", "decision_tree",
-    "random_forest_classifier", "xgboost_classifier", "lightgbm_classifier"
+    "knn",
+    "logistic_regression",
+    "svm",
+    "decision_tree",
+    "random_forest_classifier",
+    "xgboost_classifier",
+    "lightgbm_classifier",
 ]
 
-ModelType = RegressionModel| ClassificationModel
+ModelType = RegressionModel | ClassificationModel
 
 type Model = (
-    LinearRegression | Ridge | Lasso | ElasticNet |
-    RandomForestRegressor | GradientBoostingRegressor | XGBRegressor | LGBMRegressor |
-    KNeighborsClassifier | LogisticRegression | SVC | DecisionTreeClassifier |
-    RandomForestClassifier | XGBClassifier | LGBMClassifier
+    LinearRegression
+    | Ridge
+    | Lasso
+    | ElasticNet
+    | RandomForestRegressor
+    | GradientBoostingRegressor
+    | XGBRegressor
+    | LGBMRegressor
+    | KNeighborsClassifier
+    | LogisticRegression
+    | SVC
+    | DecisionTreeClassifier
+    | RandomForestClassifier
+    | XGBClassifier
+    | LGBMClassifier
 )
 
 
 def get_model(  # noqa: C901, PLR0911, PLR0912
-    model_type: ModelType,
-    model_params: dict[str, Any] | None = None
+    model_type: ModelType, model_params: dict[str, Any] | None = None
 ) -> Model:
     """
     Instantiate a machine learning model based on the model_type.
@@ -134,7 +154,7 @@ def train_model(
     x: np.ndarray,
     y: np.ndarray | ArrayLike,
     model_type: ModelType,
-    model_params: dict[str, Any] | None = None
+    model_params: dict[str, Any] | None = None,
 ) -> Model:
     """Train the specified model on X, y and return the fitted model."""
     model = get_model(model_type, model_params)
@@ -143,8 +163,7 @@ def train_model(
 
 
 def predict(
-    model: Model,
-    x: np.ndarray | spmatrix
+    model: Model, x: np.ndarray | spmatrix
 ) -> np.ndarray | ArrayLike | spmatrix | list[spmatrix]:
     """Generate predictions for X using the fitted model."""
     return model.predict(x)
@@ -157,7 +176,7 @@ def tune_model(
     param_grid: dict[str, Any],
     cv: int = 5,
     scoring: str = "accuracy",
-    n_jobs: int = -1
+    n_jobs: int = -1,
 ) -> GridSearchCV:
     """
     Perform a grid search over param_grid for the specified model_type.
@@ -170,7 +189,7 @@ def tune_model(
         param_grid=param_grid,
         cv=cv,
         scoring=scoring,
-        n_jobs=n_jobs
+        n_jobs=n_jobs,
     )
     grid_search.fit(x, y)
     return grid_search
